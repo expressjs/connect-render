@@ -20,6 +20,11 @@ var options = {
   helpers: {
     sitename: 'connect-render demo site',
     starttime: new Date().getTime()
+  },
+  dynamicHelpers: {
+    dynamic: function(req, res) {
+      return req.type + res.req.url;
+    }
   }
 };
 
@@ -46,6 +51,9 @@ app.use(function(req, res) {
       layout: false, 
       scope: { name: 'scope test' } 
     });
+  }
+  if (req.url === '/dynamic') {
+    return res.render('dynamic_test.html');
   }
   res.render('index.html', { name: 'fengmk2' });
 });
@@ -134,4 +142,19 @@ describe('render.js', function() {
       });
     });
   });
+
+  describe('#dynamicHelper', function() {
+    it('should get dynamic date', function() {
+      app.request().get('/dynamic').end(function(res) {
+        res.shoud.status(200);
+        res.body.toString().should.equal('get/dynamic');
+        app.request().post('/dynamic').end(function(res) {
+          res.shoud.status(200);
+          res.body.toString().should.equal('post/dynamic');
+          done();
+        });
+      });
+    });
+  });
+
 });

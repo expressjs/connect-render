@@ -77,6 +77,12 @@ function render(view, options) {
       options[k] = settings.helpers[k];
     }
   }
+  var dynamicHelpers = settings.dynamicHelpers;
+  if (dynamicHelpers) {
+    for (var k in dynamicHelpers) {
+      options[k] = dynamicHelpers[k](this.req, this);
+    }
+  }
   var self = this;
   // add request to options
   if (!options.request) {

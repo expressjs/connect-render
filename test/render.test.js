@@ -58,7 +58,7 @@ app.use(function (req, res) {
     return res.render('partial_not_exists.html', { layout: false });
   }
   if (req.url === '/partial_exp') {
-    return res.render('partial_exp.html', { layout: false, name: 'fengmk2' });
+    return res.render('partial_exp.html', { layout: false, name: 'fengmk2', index: 'index' });
   }
   if (req.url === '/error') {
     return res.render('error.html');
@@ -229,7 +229,7 @@ describe('render.test.js', function () {
     it('should support expression', function (done) {
       request(app).get('/partial_exp')
       .expect(200)
-      .expect('hello fengmk2\n', done);
+      .expect('hello fengmk2\nhello fengmk2\n', done);
     });
   });
 });

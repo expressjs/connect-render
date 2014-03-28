@@ -57,6 +57,9 @@ app.use(function (req, res) {
   if (req.url === '/partial_not_exists') {
     return res.render('partial_not_exists.html', { layout: false });
   }
+  if (req.url === '/partial_exp') {
+    return res.render('partial_exp.html', { layout: false, name: 'fengmk2' });
+  }
   if (req.url === '/error') {
     return res.render('error.html');
   }
@@ -221,6 +224,12 @@ describe('render.test.js', function () {
         errormsg.should.include('Error: ENOENT, no such file or directory');
         done(err);
       });
+    });
+
+    it('should support expression', function (done) {
+      request(app).get('/partial_exp')
+      .expect(200)
+      .expect('hello fengmk2\n', done);
     });
   });
 });
